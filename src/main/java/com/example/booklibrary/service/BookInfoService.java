@@ -30,7 +30,7 @@ public class BookInfoService
         }
         return books.stream()
                 .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<BookInfoDTO> findBooksByTitle(String title) {
@@ -40,6 +40,6 @@ public class BookInfoService
         }
         return books.stream()
                 .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

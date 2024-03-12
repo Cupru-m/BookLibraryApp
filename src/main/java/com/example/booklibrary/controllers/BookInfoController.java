@@ -12,9 +12,11 @@ import java.util.List;
 
 @RestController
 public class BookInfoController {
+    private final BookInfoService bookInfoService;
 
-    @Autowired
-    private BookInfoService bookInfoService;
+    public BookInfoController(BookInfoService bookInfoService) {
+        this.bookInfoService = bookInfoService;
+    }
 
     @GetMapping("/books")
     public List<BookInfoDTO> getBooks(@RequestParam(required = false) String title)
