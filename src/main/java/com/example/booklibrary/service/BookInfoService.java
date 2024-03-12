@@ -5,7 +5,6 @@ import com.example.booklibrary.dtos.BookInfoDTO;
 import com.example.booklibrary.entity.BookInfo;
 import com.example.booklibrary.exceptions.BookListEmptyException;
 import com.example.booklibrary.repository.BookInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class BookInfoService
 {
     private final BookInfoRepository bookInfoRepository;
 
-    @Autowired
+
     public BookInfoService(BookInfoRepository bookInfoRepository) {
         this.bookInfoRepository = bookInfoRepository;
     }
