@@ -10,14 +10,10 @@ public class BookInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "title")
+    
     private String title;
 
-    @Column(name = "genre")
     private String genre;
-
-    @Column(name = "year")
     private int year;
 
     private String author;
