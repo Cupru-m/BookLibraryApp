@@ -13,5 +13,6 @@ public class BookInfoDTOSerializer extends JsonSerializer<BookInfoDTO> {
         gen.writeRaw("\n" +"Title: " + value.getTitle() + "\n");
         gen.writeRaw("genre: " + value.getGenre() + "\n");
         gen.writeRaw("year: " + value.getYear() + "\n");
+        gen.writeRaw("auror:" + value.getAuthor() + "\n");
     }
 }

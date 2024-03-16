@@ -20,7 +20,7 @@ public class BookInfo {
     @Column(name = "year")
     private int year;
 
-    private String Author;
+    private String author;
     public Long getId() {
         return id;
     }
@@ -51,5 +51,13 @@ public class BookInfo {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

@@ -27,7 +27,7 @@ public class BookInfoService
             throw new BookListEmptyException("List is Empty");
         }
         return books.stream()
-                .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear()))
+                .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear(), book.getAuthor()))
                 .toList();
     }
 
@@ -37,7 +37,9 @@ public class BookInfoService
             throw new BookListEmptyException("No books found with the title: " + title);
         }
         return books.stream()
-                .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear()))
+                .map(book -> new BookInfoDTO(book.getTitle(), book.getGenre(), book.getYear(),book.getAuthor()))
                 .toList();
     }
+
+
 }
