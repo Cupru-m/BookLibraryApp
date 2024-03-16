@@ -20,6 +20,7 @@ public class BookInfo {
     @Column(name = "year")
     private int year;
 
+    private String Author;
     public Long getId() {
         return id;
     }
