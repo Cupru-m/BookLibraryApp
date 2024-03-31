@@ -1,7 +1,7 @@
 package com.example.booklibrary.controllers;
 
 
-import com.example.booklibrary.exceptions.BookListEmptyException;
+import com.example.booklibrary.exceptions.ListEmptyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleNoHandlerFoundException(NoHandlerFoundException ex) {
         return new ResponseEntity<>("Bad Request: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(BookListEmptyException.class)
-    public ResponseEntity<String> handleBookListEmptyException(BookListEmptyException ex) {
+    @ExceptionHandler(ListEmptyException.class)
+    public ResponseEntity<String> handleBookListEmptyException(ListEmptyException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

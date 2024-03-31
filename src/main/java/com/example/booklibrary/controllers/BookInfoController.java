@@ -2,10 +2,13 @@ package com.example.booklibrary.controllers;
 
 
 import com.example.booklibrary.dtos.BookInfoDTO;
+
 import com.example.booklibrary.service.BookInfoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +28,35 @@ public class BookInfoController {
                 return bookInfoService.findBooksByTitle(title);
             }
             return bookInfoService.findAllBooks();
+    }
+    @PostMapping("/saveBook")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createBook(@RequestBody BookInfoDTO data) {
+          bookInfoService.saveBook(data);
+    }
+
+    @PutMapping("/updateBook/{id}")
+    public ResponseEntity<BookInfoDTO> updateBook(@PathVariable Long id,
+                                                  @RequestParam(required = false) String title,
+                                                  @RequestParam(required = false) String genre,
+                                                  @RequestParam(required = false) Integer year,
+                                                  @RequestParam(required = false) String author) {
+        BookInfoDTO updatedBook = bookInfoService.updateBook(id, title, genre, year, author);
+        if (updatedBook != null) {
+            return ResponseEntity.ok(updatedBook);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/deleteBook/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        try {
+            bookInfoService.deleteBook(id);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
