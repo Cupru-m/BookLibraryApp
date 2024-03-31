@@ -1,7 +1,7 @@
 package com.example.booklibrary.controllers;
 
 
-import com.example.booklibrary.dtos.BookReviewDTO;
+import com.example.booklibrary.dtos.ReviewDTO;
 import com.example.booklibrary.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +17,14 @@ public class ReviewsController {
     }
 
     @GetMapping("/bookReviews")
-    public List<BookReviewDTO> getReviews(@RequestParam String title) {
+    public List<ReviewDTO> getReviews(@RequestParam String title) {
         return reviewService.getReviews(title);
     }
 
     @PostMapping("/postRevie")
     @ResponseStatus(HttpStatus.CREATED)
-    public createReview(@RequestBody BookReviewDTO data)
+    public void createReview(@RequestBody ReviewDTO data)
     {
-        reviewService.saveReviw(data);
+        reviewService.saveReview(data);
     }
 }

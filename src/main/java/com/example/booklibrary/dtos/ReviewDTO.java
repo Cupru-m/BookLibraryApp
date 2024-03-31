@@ -5,10 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookReviewDTO {
+public class ReviewDTO {
     private String content;
     private int rating;
-    public BookReviewDTO(String content, int rating)
+    private String bookTitle;
+    public ReviewDTO(String bookTitle,String content, int rating)
     {
         this.content = content;
         this.rating = rating;

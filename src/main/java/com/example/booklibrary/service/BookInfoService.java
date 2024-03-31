@@ -33,7 +33,7 @@ public class BookInfoService
     }
 
     public List<BookInfoDTO> findBooksByTitle(String title) {
-        List<BookInfo> books = bookInfoRepository.findByTitle(title);
+        List<BookInfo> books = (List<BookInfo>) bookInfoRepository.findByTitle(title);
         if (books.isEmpty()) {
             throw new ListEmptyException("No books found with the title: " + title);
         }
