@@ -30,7 +30,7 @@ public class ReviewService {
                 .findFirst()
                 .orElseThrow(() -> new ListEmptyException("Книга не найдена"));
         List<ReviewDTO> reviews =foundBook.getReviews().stream()
-                .map(review -> new ReviewDTO(foundBook.getTitle(),review.getContent(), review.getRating()))
+                .map(review -> new ReviewDTO(review.getContent(), review.getRating()))
                 .toList();
         if(reviews.isEmpty())
         {
@@ -44,10 +44,14 @@ public class ReviewService {
         review.setContent(content);
         review.setRating(rating);
         BookInfo bookInfo = bookInfoRepository.findByTitle(title);
-        if(bookInfo!=null)
-        review.setBookInfo(bookInfo);
+        if(bookInfo!=null) {
+            review.setBookInfo(bookInfo);
+        }
         else
+        {
             throw new ListEmptyException("Книга не найдена");
+        }
+
         reviewRepository.save(review);
     }
 

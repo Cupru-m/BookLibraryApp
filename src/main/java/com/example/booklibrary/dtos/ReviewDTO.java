@@ -9,7 +9,7 @@ public class ReviewDTO {
     private String content;
     private int rating;
     private String bookTitle;
-    public ReviewDTO(String bookTitle,String content, int rating)
+    public ReviewDTO(String content, int rating)
     {
         this.content = content;
         this.rating = rating;

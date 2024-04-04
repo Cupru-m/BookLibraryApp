@@ -73,9 +73,10 @@ public class BookInfoService
     }
     public BookInfoDTO convertToDTO(BookInfo bookInfo)
     {
-        BookInfoDTO  bookInfoDTO = new BookInfoDTO
-                (bookInfo.getId(),bookInfo.getTitle(),bookInfo.getGenre(),bookInfo.getYear(),bookInfo.getAuthor());
-        return bookInfoDTO;
+          return new BookInfoDTO
+                (bookInfo.getId(),bookInfo.getTitle(),bookInfo.getGenre(),
+                        bookInfo.getYear(),bookInfo.getAuthor());
+
     }
 
     public void deleteBook(Long id) {
