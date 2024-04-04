@@ -63,7 +63,6 @@ public class ReviewService {
 
     public void updateReviewContent(Long id, String content) {
         Optional<Review> reviewOptional = reviewRepository.findById(id);
-
         if (reviewOptional.isPresent()) {
             Review review = reviewOptional.get();
                 review.setContent(content);
