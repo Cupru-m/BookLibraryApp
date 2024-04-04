@@ -2,6 +2,7 @@ package com.example.booklibrary.controllers;
 
 
 import com.example.booklibrary.exceptions.ListEmptyException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,11 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(ListEmptyException.class)
     public ResponseEntity<String> handleBookListEmptyException(ListEmptyException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public  ResponseEntity<String> handlentityNotFoundException(EntityNotFoundException ex)
+    {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

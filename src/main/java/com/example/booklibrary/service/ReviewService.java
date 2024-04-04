@@ -6,9 +6,11 @@ import com.example.booklibrary.entity.Review;
 import com.example.booklibrary.exceptions.ListEmptyException;
 import com.example.booklibrary.repository.BookInfoRepository;
 import com.example.booklibrary.repository.ReviewRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewService {
@@ -36,13 +38,50 @@ public class ReviewService {
         }
         return reviews;
     }
-    public void saveReview(ReviewDTO data)
+    public void saveReview(String title,String content,int rating)
     {
         Review review = new Review();
-        review.setContent(data.getContent());
-        review.setRating(data.getRating());
-        review.setBookInfo(bookInfoRepository.findByTitle(data.getBookTitle()));
+        review.setContent(content);
+        review.setRating(rating);
+        BookInfo bookInfo = bookInfoRepository.findByTitle(title);
+        if(bookInfo!=null)
+        review.setBookInfo(bookInfo);
+        else
+            throw new ListEmptyException("Книга не найдена");
         reviewRepository.save(review);
     }
 
+
+    public void deleteReview(Long id) {
+        if(reviewRepository.existsById(id)) {
+            reviewRepository.deleteById(id);
+        }
+        else {
+            throw  new EntityNotFoundException("Отзыв с ID: [" + id + "] не найден");
+        }
+    }
+
+    public void updateReviewContent(Long id, String content) {
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
+
+        if (reviewOptional.isPresent()) {
+            Review review = reviewOptional.get();
+                review.setContent(content);
+            reviewRepository.save(review);
+        } else {
+            throw new IllegalArgumentException("Отзыв с ID [" + id + "] не найден.");
+        }
+    }
+
+    public void updateReviewRating(Long id, int rating) {
+        Optional<Review> reviewOptional = reviewRepository.findById(id);
+
+        if (reviewOptional.isPresent()) {
+            Review review = reviewOptional.get();
+                review.setRating(rating);
+            reviewRepository.save(review);
+        } else {
+            throw new IllegalArgumentException("Отзыв с ID [" + id + "] не найден.");
+        }
+    }
 }
