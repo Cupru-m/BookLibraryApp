@@ -22,7 +22,7 @@ public class ReviewsController {
         return reviewService.getReviews(title);
     }
 
-    @PostMapping("/postRevie")
+    @PostMapping("/postReview")
     @ResponseStatus(HttpStatus.CREATED)
     public void createReview(@RequestParam String title,String content, int rating)
     {
