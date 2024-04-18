@@ -1,4 +1,4 @@
-package com.example.booklibrary.dtos;
+package com.example.booklibrary.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,11 +8,10 @@ import lombok.Setter;
 public class ReviewDTO {
     private String content;
     private int rating;
-    private String bookTitle;
-
-    public ReviewDTO(String content, int rating)
+    private long id;
+    public ReviewDTO(long id,String content, int rating)
     {
-
+        this.id=id;
         this.content = content;
         this.rating = rating;
     }

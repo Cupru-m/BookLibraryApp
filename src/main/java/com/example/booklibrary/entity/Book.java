@@ -9,8 +9,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "bookinfo")
-public class BookInfo {
+@Table(name = "books")
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +19,6 @@ public class BookInfo {
     private int year;
     private String author;
 
-    @OneToMany(mappedBy = "bookInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "books", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 }

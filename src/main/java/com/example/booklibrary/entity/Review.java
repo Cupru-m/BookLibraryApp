@@ -15,7 +15,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
-    private BookInfo bookInfo;
+    private Book books;
 
     private String content;
     private int rating;

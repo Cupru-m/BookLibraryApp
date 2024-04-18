@@ -1,7 +1,8 @@
 package com.example.booklibrary.controllers;
 
 
-import com.example.booklibrary.dtos.ReviewDTO;
+
+import com.example.booklibrary.dto.ReviewDTO;
 import com.example.booklibrary.service.ReviewService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ReviewsController {
         return reviewService.getReviews(title);
     }
 
-    @PostMapping("/postReview")
+    @PostMapping("/postRevie")
     @ResponseStatus(HttpStatus.CREATED)
     public void createReview(@RequestParam String title,String content, int rating)
     {
