@@ -25,12 +25,15 @@ public class BooksController {
         return booksService.findBooksWithHighRating(minRating);
     }
 
-    @GetMapping("/books")
-    public List<BooksDTO> getBooks(@RequestParam(required = false) String genre) {
-        if (genre != null) {
-            return booksService.findBooksByGenre(genre);
-        }
+    @GetMapping("/books/GetAll")
+    public List<BooksDTO> getBooks() {
         return booksService.findAllBooks();
+    }
+
+    @PostMapping("/saveBooks")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveBooks(@RequestBody List<BooksDTO> booksDTOs) {
+        booksService.saveBooks(booksDTOs);
     }
 
     @PostMapping("/saveBook")

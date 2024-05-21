@@ -13,7 +13,6 @@ public interface BooksRepository extends JpaRepository<Book, Long> {
 
     @Query(value = "SELECT b.* FROM books b JOIN reviews r ON b.id = r.book_id WHERE r.rating > :minRating", nativeQuery = true)
     List<Book> findBooksWithHighRating(@Param("minRating") int minRating);
-
     List<Book> findByGenre(String genre);
 }
 

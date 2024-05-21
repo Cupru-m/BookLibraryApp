@@ -7,9 +7,9 @@ import com.example.booklibrary.exceptions.ListEmptyException;
 import com.example.booklibrary.repository.BooksRepository;
 import com.example.booklibrary.repository.ReviewsRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +24,10 @@ public class ReviewService {
     }
 
     public List<ReviewDTO> getReviews(String title) {
-        List<Book> books = booksRepository.findAll();
-        Book foundBook = books.stream()
-                .filter(book -> title.equals(book.getTitle()))
-                .findFirst()
-                .orElseThrow(() -> new ListEmptyException("Книга не найдена"));
+        Book foundBook = booksRepository.findByTitle(title);
+        if(foundBook == null){
+         throw    new ListEmptyException("Книга не найдена");
+        }
         List<ReviewDTO> reviews = foundBook.getReviews().stream()
                 .map(review -> new ReviewDTO(review.getId(), review.getContent(), review.getRating()))
                 .toList();
@@ -42,10 +41,18 @@ public class ReviewService {
         Review review = new Review();
         review.setContent(content);
         review.setRating(rating);
-
+        review.setId(1L);
         Book books = booksRepository.findByTitle(title);
         if (books != null) {
             review.setBooks(books);
+           List<Review> reviews = new ArrayList<Review>();
+           reviews.add(review);
+           List<Review> otherReviews = books.getReviews();
+           if(otherReviews != null)
+           {
+             reviews.addAll(otherReviews);
+           }
+               books.setReviews(reviews);
         } else {
             throw new ListEmptyException("Книга не найдена");
         }
@@ -81,16 +88,6 @@ public class ReviewService {
             reviewsRepository.save(review);
         } else {
             throw new IllegalArgumentException("Отзыв с ID [" + id + "] не найден.");
-        }
-    }
-
-    public ResponseEntity<ReviewDTO> getReviewById(Long id) {
-        Optional<Review> reviewOptional = reviewsRepository.findById(id);
-        if (reviewOptional.isPresent()) {
-            Review review = reviewOptional.get();
-            return ResponseEntity.ok(new ReviewDTO(review.getId(), review.getContent(), review.getRating()));
-        } else {
-            return ResponseEntity.notFound().build();
         }
     }
 }

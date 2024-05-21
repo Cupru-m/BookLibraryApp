@@ -36,18 +36,6 @@ public class BooksService {
                 .toList();
     }
 
-    public List<BooksDTO> findBooksByGenre(String genre) {
-        log.info("Поиск книг по жанру: {}", genre);
-        List<Book> books = booksRepository.findByGenre(genre);
-        if (books.isEmpty()) {
-            log.warn("Не найдено книг с жанром:{} ", genre);
-            throw new ListEmptyException("No books found with the genre: " + genre);
-        }
-        return books.stream()
-                .map(book -> new BooksDTO(book.getId(), book.getTitle(), book.getGenre(), book.getYear(), book.getAuthor()))
-                .toList();
-    }
-
     public void saveBook(BooksDTO booksDTO) {
         log.info("Сохранение книги: {}", booksDTO.getTitle());
         Book books = new Book();
@@ -115,5 +103,9 @@ public class BooksService {
                 .toList();
         myCache.put(cacheKey, booksDTOs);
         return booksDTOs;
+    }
+
+    public void saveBooks(List<BooksDTO> booksDTOs) {
+        booksDTOs.parallelStream().forEach(this::saveBook);
     }
 }

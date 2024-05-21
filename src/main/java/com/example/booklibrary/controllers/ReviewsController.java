@@ -1,7 +1,6 @@
 package com.example.booklibrary.controllers;
 
 
-
 import com.example.booklibrary.dto.ReviewDTO;
 import com.example.booklibrary.service.ReviewService;
 import org.springframework.http.HttpStatus;
@@ -13,8 +12,8 @@ import java.util.List;
 @RestController
 public class ReviewsController {
     private final ReviewService reviewService;
-    public ReviewsController( ReviewService reviewService)
-    {
+
+    public ReviewsController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
@@ -25,15 +24,16 @@ public class ReviewsController {
 
     @PostMapping("/postRevie")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createReview(@RequestParam String title,String content, int rating)
-    {
-        reviewService.saveReview(title,content,rating);
+    public void createReview(@RequestParam String title, String content, int rating) {
+        reviewService.saveReview(title, content, rating);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteReview(@PathVariable Long id) {
         reviewService.deleteReview(id);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("/UpdateReview/content/{id}")
     public ResponseEntity<String> updateReviewContent(@PathVariable Long id, @RequestBody String content) {
         reviewService.updateReviewContent(id, content);
