@@ -14,5 +14,5 @@ This is a basic REST API application built using [Spring Boot](https://spring.io
 
 - [Spring Boot]
 - [Spring Data JPA]
--[Hybernate]
--[PostgreSQL Driver]
+- [Hybernate]
+- [PostgreSQL Driver]
