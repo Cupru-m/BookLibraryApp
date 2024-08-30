@@ -2,7 +2,9 @@ package com.example.booklibrary.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
 
+import javax.management.ConstructorParameters;
 import java.util.Objects;
 
 @Getter
@@ -14,7 +16,7 @@ public class BooksDTO {
     private String genre;
     private int year;
     private String author;
-
+    private int rating;
     public BooksDTO(Long id, String title, String genre, int year, String author) {
         this.id = id;
         this.title = title;

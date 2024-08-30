@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      #SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+    ports:
+      - 8080:8080
+    networks:
+      - bookLibrary-app
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - bookLibrary-app
+
+volumes:
+  db-data:
+
+networks:
+  bookLibrary-app:

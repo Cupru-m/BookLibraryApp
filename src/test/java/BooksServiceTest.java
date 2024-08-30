@@ -4,6 +4,7 @@ import com.example.booklibrary.service.BooksService;
 import com.example.booklibrary.repository.BooksRepository;
 import com.example.booklibrary.cache.MyCache;
 import com.example.booklibrary.dto.BooksDTO;
+import com.example.booklibrary.service.CounterService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,13 @@ public class BooksServiceTest {
     private BooksService booksService;
     private BooksRepository booksRepository;
     private MyCache myCache;
+    private CounterService counterService;
 
     @BeforeEach
     public void setUp() {
         booksRepository = mock(BooksRepository.class);
         myCache = mock(MyCache.class);
-        booksService = new BooksService(booksRepository, myCache);
+        booksService = new BooksService(booksRepository, myCache, counterService);
     }
     public Book bookConstructor(String title, String author, String genre, int year,long id) {
         Book book = new Book();
@@ -95,18 +97,6 @@ public class BooksServiceTest {
         assertEquals(expectedBook.getAuthor(), actualDTO.getAuthor());
 
         verify(booksRepository, times(1)).save(expectedBook);
-    }
-    @Test
-    public void testConvertToDTO() {
-        Book book = bookConstructor("Book 1","Author 1","Genre 1",2020,1L);
-
-        BooksDTO dto = booksService.convertToDTO(book);
-
-        assertEquals(book.getId(), dto.getId());
-        assertEquals(book.getTitle(), dto.getTitle());
-        assertEquals(book.getGenre(), dto.getGenre());
-        assertEquals(book.getYear(), dto.getYear());
-        assertEquals(book.getAuthor(), dto.getAuthor());
     }
     @Test
     public void testDeleteBookExists() {

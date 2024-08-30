@@ -3,7 +3,6 @@ package com.example.booklibrary.service;
 import com.example.booklibrary.cache.MyCache;
 import com.example.booklibrary.dto.BooksDTO;
 import com.example.booklibrary.entity.Book;
-
 import com.example.booklibrary.exceptions.ListEmptyException;
 import com.example.booklibrary.repository.BooksRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,13 +17,16 @@ import java.util.List;
 public class BooksService {
     private final BooksRepository booksRepository;
     private final MyCache myCache;
+    private final CounterService counterService;
 
-    public BooksService(BooksRepository bookRepository, MyCache myCache) {
+    public BooksService(BooksRepository bookRepository, MyCache myCache, CounterService counterService) {
         this.booksRepository = bookRepository;
         this.myCache = myCache;
+        this.counterService = counterService;
     }
 
     public List<BooksDTO> findAllBooks() {
+        counterService.incrementCounter();
         log.info("Получение всех книг");
         List<Book> books = booksRepository.findAll();
         if (books.isEmpty()) {
@@ -35,8 +37,12 @@ public class BooksService {
                 .map(book -> new BooksDTO(book.getId(), book.getTitle(), book.getGenre(), book.getYear(), book.getAuthor()))
                 .toList();
     }
-
+    public BooksDTO convertToDTO(Book books) {
+        return new BooksDTO(books.getId(), books.getTitle(), books.getGenre(),
+                books.getYear(), books.getAuthor());
+    }
     public void saveBook(BooksDTO booksDTO) {
+        counterService.incrementCounter();
         log.info("Сохранение книги: {}", booksDTO.getTitle());
         Book books = new Book();
         books.setTitle(booksDTO.getTitle());
@@ -48,20 +54,21 @@ public class BooksService {
     }
 
     public BooksDTO updateBook(Long id, String title, String genre, Integer year, String author) {
+        counterService.incrementCounter();
         log.info("Обновление книги с ID:{}", id);
         Book books = booksRepository.findById(id)
                 .orElseThrow(() -> new ListEmptyException("Book not found with id: " + id));
 
-        if (title != null) {
+        if (title!= null) {
             books.setTitle(title);
         }
-        if (genre != null) {
+        if (genre!= null) {
             books.setGenre(genre);
         }
-        if (year != null) {
+        if (year!= null) {
             books.setYear(year);
         }
-        if (author != null) {
+        if (author!= null) {
             books.setAuthor(author);
         }
 
@@ -69,12 +76,8 @@ public class BooksService {
         return convertToDTO(books);
     }
 
-    public BooksDTO convertToDTO(Book books) {
-        return new BooksDTO(books.getId(), books.getTitle(), books.getGenre(),
-                books.getYear(), books.getAuthor());
-    }
-
     public void deleteBook(Long id) {
+        counterService.incrementCounter();
         log.info("Удаление книги с ID: {}", id);
         if (booksRepository.existsById(id)) {
             booksRepository.deleteById(id);
@@ -85,10 +88,11 @@ public class BooksService {
     }
 
     public List<BooksDTO> findBooksWithHighRating(int minRating) {
+        counterService.incrementCounter();
         log.info("Поиск книг с рейтингом выше:{} ", minRating);
         String cacheKey = "booksWithHighRating_" + minRating;
         List<BooksDTO> cachedBooks = (List<BooksDTO>) myCache.get(cacheKey);
-        if (cachedBooks != null) {
+        if (cachedBooks!= null) {
             log.info("Книги с рейтингом выше {} найдены в кэше", minRating);
             return cachedBooks;
         }
@@ -106,6 +110,7 @@ public class BooksService {
     }
 
     public void saveBooks(List<BooksDTO> booksDTOs) {
+        counterService.incrementCounter();
         booksDTOs.parallelStream().forEach(this::saveBook);
     }
 }

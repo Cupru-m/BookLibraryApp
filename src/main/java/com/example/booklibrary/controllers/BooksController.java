@@ -4,6 +4,7 @@ package com.example.booklibrary.controllers;
 import com.example.booklibrary.dto.BooksDTO;
 
 import com.example.booklibrary.service.BooksService;
+import com.example.booklibrary.service.CounterService;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -15,11 +16,16 @@ import java.util.List;
 @RestController
 public class BooksController {
     private final BooksService booksService;
-
-    public BooksController(BooksService booksService) {
+    private  CounterService counterService;
+    public BooksController(BooksService booksService,CounterService counterService) {
+        this.counterService = counterService;
         this.booksService = booksService;
     }
-
+    @GetMapping("/counter/data")
+    public ResponseEntity<Long> getCounterData() {
+        long count = counterService.getCount();
+        return ResponseEntity.ok(count);
+    }
     @GetMapping("/books/high-rating")
     public List<BooksDTO> getBooksWithHighRating(@RequestParam int minRating) {
         return booksService.findBooksWithHighRating(minRating);
